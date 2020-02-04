@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.mvvm_tutorial.model.Post;
 import com.example.mvvm_tutorial.repositories.PostRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityViewModel extends ViewModel {

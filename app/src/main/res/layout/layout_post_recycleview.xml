@@ -6,25 +6,22 @@
 
     <TextView
         android:id="@+id/userId"
-        style="@style/display_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="iwjodiajo" />
 
     <TextView
         android:id="@+id/id"
-        style="@style/display_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/title"
-        style="@style/display_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text"
-        style="@style/display_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

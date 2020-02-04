@@ -1,14 +1,12 @@
 package com.example.mvvm_tutorial.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvvm_tutorial.R;
@@ -20,10 +18,10 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "RecyclerAdapter";
-    private List<Post> mPost = new ArrayList<>();
+    private List<Post> mPost;
     private Context context;
 
-    public RecyclerAdapter(List<Post> mPost,Context context) {
+    public RecyclerAdapter(List<Post> mPost, Context context) {
         this.mPost = mPost;
         this.context = context;
     }
@@ -42,12 +40,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ((ViewHolder) holder).mUserId.setText(Integer.toString(mPost.get(position).getUserId()));
         ((ViewHolder) holder).mId.setText(Integer.toString(mPost.get(position).getId()));
         ((ViewHolder) holder).mTitle.setText(mPost.get(position).getTitle());
-        ((ViewHolder) holder).mText.setText(mPost.get(position).getText());
+        ((ViewHolder) holder).mText.setText(mPost.get(position).getBody());
     }
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: "+mPost.size());
         return mPost.size();
     }
 

@@ -1,35 +1,43 @@
 package com.example.mvvm_tutorial.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Post {
 
-    private int userId;
-    private int id;
+    @SerializedName("userId")
+    @Expose
+    private Integer userId;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("title")
+    @Expose
     private String title;
     @SerializedName("body")
-    private String text;
+    @Expose
+    private String body;
 
-    public Post(int userId, int id, String title, String text) {
+    public Post(Integer userId, Integer id, String title, String body) {
         this.userId = userId;
         this.id = id;
         this.title = title;
-        this.text = text;
+        this.body = body;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -41,11 +49,12 @@ public class Post {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getBody() {
+        return body;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setBody(String body) {
+        this.body = body;
     }
+
 }
