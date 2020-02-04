@@ -21,44 +21,32 @@ public class PostRepository {
 
     private static PostRepository instance;
     private ArrayList<Post> dataSet = new ArrayList<>();
+    private ArrayList<Post> recyclerArrayList = new ArrayList<>();
 
-    JsonPlaceHolderApi placeApi;
-
-    public static PostRepository getInstance() {
-        if (instance == null) {
-            instance = new PostRepository();
-        }
-        return instance;
+    private PostRepository(){
+        fetchData();
     }
 
-    public MutableLiveData<List<Post>> getPost() {
+    private void fetchData() {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        placeApi = retrofit.create(JsonPlaceHolderApi.class);
-        MutableLiveData<List<Post>> data = new MutableLiveData<>();
-        fetchData();
-        data.setValue(dataSet);
-        return data;
-    }
-
-    private void fetchData() {
-
+        JsonPlaceHolderApi placeApi = retrofit.create(JsonPlaceHolderApi.class);
 
         Call<List<Post>> call = placeApi.getPosts();
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                Log.d(TAG, "*************************************************** " + response.body());
                 List<Post> jsonResponse = response.body();
-                jsonParser(jsonResponse);
 
+                for (int i = 0; i < 2; i++) {
+                    Post item = jsonResponse.get(i);
+                    recyclerArrayList.add(new Post(item.getUserId(), item.getId(), item.getTitle(), item.getBody()));
+                }
             }
 
             @Override
@@ -69,17 +57,22 @@ public class PostRepository {
 
     }
 
-    private void jsonParser(List<Post> res) {
-        ArrayList<Post> recyclerArrayList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Post item = res.get(i);
-            Post post = new Post();
-            post.setUserId(item.getUserId());
-            post.setId(item.getId());
-            post.setTitle(item.getTitle());
-            post.setBody(item.getBody());
-            recyclerArrayList.add(post);
+    public MutableLiveData<List<Post>> getPost() {
+        MutableLiveData<List<Post>> data = new MutableLiveData<>();
+        data.setValue(recyclerArrayList);
+        if(recyclerArrayList==null){
+            fetchData();
+            return data;
+        } else {
+            fetchData();
+            return data;
         }
-        dataSet.addAll(recyclerArrayList);
+    }
+
+    public static PostRepository getInstance() {
+        if (instance == null) {
+            instance = new PostRepository();
+        }
+        return instance;
     }
 }

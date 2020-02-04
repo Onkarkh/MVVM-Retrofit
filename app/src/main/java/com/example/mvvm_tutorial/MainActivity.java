@@ -12,24 +12,23 @@ import android.widget.TextView;
 
 import com.example.mvvm_tutorial.adapter.RecyclerAdapter;
 import com.example.mvvm_tutorial.model.Post;
+import com.example.mvvm_tutorial.repositories.PostRepository;
+import com.example.mvvm_tutorial.repositories.RetrofitService;
 import com.example.mvvm_tutorial.viewmodels.MainActivityViewModel;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     public RecyclerAdapter mRecyclerAdapter;
-    private MainActivityViewModel mainActivityViewModel;
-    public TextView mTextView;
-
+    public MainActivityViewModel mainActivityViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mRecyclerView = findViewById(R.id.recyclerView);
-        mTextView = findViewById(R.id.textView);
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         mainActivityViewModel.init();

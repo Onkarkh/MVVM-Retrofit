@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mvvm_tutorial.R;
 import com.example.mvvm_tutorial.model.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAdapter> {
 
     private static final String TAG = "RecyclerAdapter";
     private List<Post> mPost;
     private Context context;
+    private LayoutInflater inflater;
 
     public RecyclerAdapter(List<Post> mPost, Context context) {
         this.mPost = mPost;
@@ -28,19 +28,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_post_recycleview, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
-
+    public RecyclerAdapter.PostAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.layout_post_recycleview,parent,false);
+        return new PostAdapter(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder) holder).mUserId.setText(Integer.toString(mPost.get(position).getUserId()));
-        ((ViewHolder) holder).mId.setText(Integer.toString(mPost.get(position).getId()));
-        ((ViewHolder) holder).mTitle.setText(mPost.get(position).getTitle());
-        ((ViewHolder) holder).mText.setText(mPost.get(position).getBody());
+    public void onBindViewHolder(@NonNull PostAdapter holder, int position) {
+        holder.mUserId.setText(Integer.toString(mPost.get(position).getUserId()));
+        holder.mId.setText(Integer.toString(mPost.get(position).getId()));
+        holder.mTitle.setText(mPost.get(position).getTitle());
+        holder.mText.setText(mPost.get(position).getBody());
     }
 
     @Override
@@ -48,10 +46,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mPost.size();
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
+     class PostAdapter extends RecyclerView.ViewHolder {
         private TextView mUserId, mId, mTitle, mText;
 
-        public ViewHolder(@NonNull View itemView) {
+        public PostAdapter(@NonNull View itemView) {
             super(itemView);
             mUserId = itemView.findViewById(R.id.userId);
             mId = itemView.findViewById(R.id.id);
