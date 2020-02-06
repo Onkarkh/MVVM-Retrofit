@@ -3,7 +3,9 @@ package com.example.mvvm_tutorial.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Post {
+import java.util.List;
+
+public class ModelPost {
 
     @SerializedName("userId")
     @Expose
@@ -18,7 +20,7 @@ public class Post {
     @Expose
     private String body;
 
-    public Post(Integer userId, Integer id, String title, String body) {
+    public ModelPost(Integer userId, Integer id, String title, String body) {
         this.userId = userId;
         this.id = id;
         this.title = title;

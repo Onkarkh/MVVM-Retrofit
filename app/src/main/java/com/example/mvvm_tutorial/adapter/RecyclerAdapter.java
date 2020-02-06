@@ -10,43 +10,47 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvvm_tutorial.R;
-import com.example.mvvm_tutorial.model.Post;
+import com.example.mvvm_tutorial.model.ModelPost;
 
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAdapter> {
 
     private static final String TAG = "RecyclerAdapter";
-    private List<Post> mPost;
+    private List<ModelPost> mModelPost;
     private Context context;
     private LayoutInflater inflater;
 
-    public RecyclerAdapter(List<Post> mPost, Context context) {
-        this.mPost = mPost;
+    public RecyclerAdapter(List<ModelPost> mModelPost, Context context) {
+        this.mModelPost = mModelPost;
         this.context = context;
     }
 
     @NonNull
     @Override
     public RecyclerAdapter.PostAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.layout_post_recycleview,parent,false);
+        View view = inflater.inflate(R.layout.layout_post_recycleview, parent, false);
         return new PostAdapter(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter holder, int position) {
-        holder.mUserId.setText(Integer.toString(mPost.get(position).getUserId()));
-        holder.mId.setText(Integer.toString(mPost.get(position).getId()));
-        holder.mTitle.setText(mPost.get(position).getTitle());
-        holder.mText.setText(mPost.get(position).getBody());
+        holder.mUserId.setText(Integer.toString(mModelPost.get(position).getUserId()));
+        holder.mId.setText(Integer.toString(mModelPost.get(position).getId()));
+        holder.mTitle.setText(mModelPost.get(position).getTitle());
+        holder.mText.setText(mModelPost.get(position).getBody());
     }
 
     @Override
     public int getItemCount() {
-        return mPost.size();
+        if (mModelPost != null) {
+            return mModelPost.size();
+        } else {
+            return 0;
+        }
     }
 
-     class PostAdapter extends RecyclerView.ViewHolder {
+    class PostAdapter extends RecyclerView.ViewHolder {
         private TextView mUserId, mId, mTitle, mText;
 
         public PostAdapter(@NonNull View itemView) {

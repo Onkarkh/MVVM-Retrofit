@@ -4,15 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.mvvm_tutorial.model.Post;
+import com.example.mvvm_tutorial.model.ModelPost;
 import com.example.mvvm_tutorial.repositories.PostRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityViewModel extends ViewModel {
 
-    private MutableLiveData<List<Post>> mPost;
+    private MutableLiveData<List<ModelPost>> mPost;
     private PostRepository mPostRepository;
 
     public void init() {
@@ -23,7 +22,7 @@ public class MainActivityViewModel extends ViewModel {
         mPost = mPostRepository.getPost();
     }
 
-    public LiveData<List<Post>> getPost() {
+    public LiveData<List<ModelPost>> getPost() {
         return mPost;
     }
 }

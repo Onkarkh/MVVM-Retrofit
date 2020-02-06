@@ -1,10 +1,13 @@
 package com.example.mvvm_tutorial.repositories;
 
 import android.util.Log;
+import android.view.Display;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.mvvm_tutorial.model.Post;
+import com.example.mvvm_tutorial.model.ModelPost;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,61 +15,19 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PostRepository {
 
     private static final String TAG = "PostRepository";
 
     private static PostRepository instance;
-    private ArrayList<Post> dataSet = new ArrayList<>();
-    private ArrayList<Post> recyclerArrayList = new ArrayList<>();
 
-    private PostRepository(){
-        fetchData();
-    }
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
-    private void fetchData() {
+    List<ModelPost> postList = new ArrayList<>();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        JsonPlaceHolderApi placeApi = retrofit.create(JsonPlaceHolderApi.class);
-
-        Call<List<Post>> call = placeApi.getPosts();
-
-        call.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                List<Post> jsonResponse = response.body();
-
-                for (int i = 0; i < 2; i++) {
-                    Post item = jsonResponse.get(i);
-                    recyclerArrayList.add(new Post(item.getUserId(), item.getId(), item.getTitle(), item.getBody()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-                Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + t.getMessage());
-            }
-        });
-
-    }
-
-    public MutableLiveData<List<Post>> getPost() {
-        MutableLiveData<List<Post>> data = new MutableLiveData<>();
-        data.setValue(recyclerArrayList);
-        if(recyclerArrayList==null){
-            fetchData();
-            return data;
-        } else {
-            fetchData();
-            return data;
-        }
+    public PostRepository() {
+        jsonPlaceHolderApi = RetrofitService.createService(JsonPlaceHolderApi.class);
     }
 
     public static PostRepository getInstance() {
@@ -74,5 +35,27 @@ public class PostRepository {
             instance = new PostRepository();
         }
         return instance;
+    }
+
+    public MutableLiveData<List<ModelPost>> getPost() {
+        MutableLiveData<List<ModelPost>> data = new MutableLiveData<>();
+        jsonPlaceHolderApi.getPosts().enqueue(new Callback<List<ModelPost>>() {
+            @Override
+            public void onResponse(Call<List<ModelPost>> call, Response<List<ModelPost>> response) {
+
+                List<ModelPost> testData = response.body();
+                for(ModelPost item : testData) {
+                    Log.d(TAG, "OOOOOOOOOOOOOOOOOOOOOOO" + item);
+                    postList.add(item);
+                }
+                data.setValue(postList);
+            }
+
+            @Override
+            public void onFailure(Call<List<ModelPost>> call, Throwable t) {
+
+            }
+        });
+        return data;
     }
 }
