@@ -1,17 +1,14 @@
 package com.example.mvvm_tutorial;
 
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
 import com.example.mvvm_tutorial.adapter.RecyclerAdapter;
 import com.example.mvvm_tutorial.model.ModelPost;
-import com.example.mvvm_tutorial.repositories.PostRepository;
 import com.example.mvvm_tutorial.viewmodels.MainActivityViewModel;
 
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView mRecyclerView;
     public RecyclerAdapter mRecyclerAdapter;
     public MainActivityViewModel mainActivityViewModel;
-    ArrayList<ModelPost> modelPostArrayList = new ArrayList<>();
+    ArrayList<ModelPost> postList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +30,23 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         mainActivityViewModel.init();
-        mainActivityViewModel.getPost().observe(this, new Observer<List<ModelPost>>() {
-            @Override
-            public void onChanged(List<ModelPost> modelPosts) {
-                initRecyclerView(modelPosts);
-                mRecyclerAdapter.notifyDataSetChanged();
-            }
+        mainActivityViewModel.getPost().observe(this, modelPosts -> {
+            List<ModelPost> item = mainActivityViewModel.getPost().getValue();
+            postList.addAll(item);
+            mRecyclerAdapter.notifyDataSetChanged();
         });
-        initRecyclerView(mainActivityViewModel.getPost().getValue());
-        getAllPost();
+
+        initRecyclerView();
     }
 
-    private void initRecyclerView(List<ModelPost> value) {
-        mRecyclerAdapter = new RecyclerAdapter(value, this);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mRecyclerAdapter);
-    }
-
-    private void getAllPost() {
-        mainActivityViewModel.getPost().observe(this, modelPosts -> mRecyclerAdapter.setPostsList((ArrayList<ModelPost>) modelPosts));
+    private void initRecyclerView() {
+        if (mRecyclerAdapter == null) {
+            mRecyclerAdapter = new RecyclerAdapter(postList, this);
+            RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(linearLayoutManager);
+            mRecyclerView.setAdapter(mRecyclerAdapter);
+        } else {
+            mRecyclerAdapter.notifyDataSetChanged();
+        }
     }
 }

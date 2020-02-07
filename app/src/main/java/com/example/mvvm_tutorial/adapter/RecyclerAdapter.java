@@ -18,11 +18,11 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAdapter> {
 
     private static final String TAG = "RecyclerAdapter";
-    private List<ModelPost> mModelPost;
+    private ArrayList<ModelPost> mModelPost;
     private Context context;
-    private LayoutInflater inflater;
 
-    public RecyclerAdapter(List<ModelPost> mModelPost, Context context) {
+
+    public RecyclerAdapter(ArrayList<ModelPost> mModelPost, Context context) {
         this.mModelPost = mModelPost;
         this.context = context;
     }
@@ -30,9 +30,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAd
     @NonNull
     @Override
     public RecyclerAdapter.PostAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_post_recycleview, parent, false);
-        PostAdapter postAdapter = new PostAdapter(view);
-        return postAdapter;
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_post_recycleview,parent,false);
+        return new PostAdapter(view);
     }
 
     @Override
@@ -50,10 +49,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAd
         } else {
             return 0;
         }
-    }
-    public void setPostsList(ArrayList<ModelPost> mModelPost) {
-        this.mModelPost = mModelPost;
-        notifyDataSetChanged();
     }
 
     class PostAdapter extends RecyclerView.ViewHolder {

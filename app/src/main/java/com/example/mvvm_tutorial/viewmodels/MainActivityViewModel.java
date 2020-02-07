@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.mvvm_tutorial.model.ModelPost;
+import com.example.mvvm_tutorial.model.PostResponse;
 import com.example.mvvm_tutorial.repositories.PostRepository;
 
 import java.util.List;
