@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mvvm_tutorial.R;
 import com.example.mvvm_tutorial.model.ModelPost;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAdapter> {
@@ -29,14 +30,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAd
     @NonNull
     @Override
     public RecyclerAdapter.PostAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.layout_post_recycleview, parent, false);
-        return new PostAdapter(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_post_recycleview, parent, false);
+        PostAdapter postAdapter = new PostAdapter(view);
+        return postAdapter;
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapter holder, int position) {
-        holder.mUserId.setText(Integer.toString(mModelPost.get(position).getUserId()));
-        holder.mId.setText(Integer.toString(mModelPost.get(position).getId()));
+        holder.mUserId.setText(mModelPost.get(position).getUserId());
+        holder.mId.setText(mModelPost.get(position).getId());
         holder.mTitle.setText(mModelPost.get(position).getTitle());
         holder.mText.setText(mModelPost.get(position).getBody());
     }
@@ -48,6 +50,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PostAd
         } else {
             return 0;
         }
+    }
+    public void setPostsList(ArrayList<ModelPost> mModelPost) {
+        this.mModelPost = mModelPost;
+        notifyDataSetChanged();
     }
 
     class PostAdapter extends RecyclerView.ViewHolder {

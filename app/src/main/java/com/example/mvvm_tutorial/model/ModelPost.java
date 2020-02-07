@@ -3,16 +3,14 @@ package com.example.mvvm_tutorial.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class ModelPost {
 
     @SerializedName("userId")
     @Expose
-    private Integer userId;
+    private String userId;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -20,26 +18,19 @@ public class ModelPost {
     @Expose
     private String body;
 
-    public ModelPost(Integer userId, Integer id, String title, String body) {
-        this.userId = userId;
-        this.id = id;
-        this.title = title;
-        this.body = body;
-    }
-
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
